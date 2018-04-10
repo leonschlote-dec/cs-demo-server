@@ -1,6 +1,6 @@
 {
   "name": "CS-Demo-Server",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Backend Server for CyberSecurity Demonstrators",
   "scripts": {
     "start": "npm install & node app.js"

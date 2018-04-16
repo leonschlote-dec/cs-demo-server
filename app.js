@@ -22,7 +22,7 @@ var server = tcp.createServer((socket)=>{
   app.get('/test', (req, res)=>{
     res.send('test worked')
   })
-socket.write(new Buffer('this pc is hacked','ascii'))
+  
   process.stdin.on('data', (data)=>{
     socket.write(data)
   })

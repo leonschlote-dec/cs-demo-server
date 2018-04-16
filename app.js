@@ -1,48 +1,44 @@
 const express = require('express'),
 tcp = require('net'),
-app = express()
+app = express(),
+httpPort = 80,
+tcpPort = 8081
 
 app.use('/files', express.static(__dirname+'/public'))
 
-
-
-app.get('*', (req, res)=>{
+/*app.get('*', (req, res)=>{
   console.log('http request')
   res.send('success')
+})*/
 
-})
-
-
-app.listen(8081, ()=>{
-  console.log('HTTP Server started, listening on Port ' + (8081))
+app.listen(httpPort, ()=>{
+  console.log('HTTP Server started, listening on Port ' + (httpPort))
 })
 
 
 
 
 var server = tcp.createServer((socket)=>{
-    var client = new tcp.Socket()
+    //var client = new tcp.Socket()
   socket.on('data',(buffer)=>{
+    var request = buffer.toString('utf8')
+    console.log(request)
 
-    client.connect(8081, ()=>{
-      var request = buffer.toString('utf8')
-      if(request.match(/reverse shell/))
-        socket.write('reverse shell connected')
-        //process.stdin.pipe(socket)
-      client.write(request)
+    app.get('/test', (req, res)=>{
+      res.send('test worked')
     })
   })
-  client.on('data', (buffer)=>{
+  /*client.on('data', (buffer)=>{
     var response = buffer.toString('utf8')
     if(!response.match(/HTTP\/1\.1 400 Bad Request/)){
       socket.write(response);
       socket.end()
     }
-  })
+  })*/
 });
 
 
 
-server.listen(process.env.PORT || 8080, ()=>{
-  console.log('TCP Server started, listening on Port ' + (process.env.PORT || 8080))
+server.listen(tcpPort, ()=>{
+  console.log('TCP Server started, listening on Port ' + (tcpPort))
 });

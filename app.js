@@ -2,7 +2,7 @@ const express = require('express'),
 tcp = require('net'),
 app = express(),
 httpPort = 80,
-tcpPort = 8081
+tcpPort = 4444
 
 app.use('/files', express.static(__dirname+'/public'))
 
@@ -24,7 +24,7 @@ var server = tcp.createServer((socket)=>{
   })
 
   process.stdin.on('data', (data)=>{
-    socket.write(data)  
+    socket.write(data)
   })
 
   /*client.on('data', (buffer)=>{

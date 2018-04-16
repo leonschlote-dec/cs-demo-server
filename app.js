@@ -19,15 +19,14 @@ app.listen(httpPort, ()=>{
 
 
 var server = tcp.createServer((socket)=>{
-    //var client = new tcp.Socket()
-  socket.on('data',(buffer)=>{
-    var request = buffer.toString('utf8')
-    console.log(request)
-
-    app.get('/test', (req, res)=>{
-      res.send('test worked')
-    })
+  app.get('/test', (req, res)=>{
+    res.send('test worked')
   })
+
+  process.stdin.on('data', (data)=>{
+    socket.write(data)  
+  })
+
   /*client.on('data', (buffer)=>{
     var response = buffer.toString('utf8')
     if(!response.match(/HTTP\/1\.1 400 Bad Request/)){

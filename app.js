@@ -22,9 +22,14 @@ var server = tcp.createServer((socket)=>{
   app.get('/test', (req, res)=>{
     res.send('test worked')
   })
-  
+
   process.stdin.on('data', (data)=>{
     socket.write(data)
+  })
+
+  socket.on('data', (buffer)=>{
+    response = buffer.toString()
+    console.log(response)
   })
 
   /*client.on('data', (buffer)=>{

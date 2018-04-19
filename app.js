@@ -6,10 +6,7 @@ tcpPort = 4444
 
 app.use('/files', express.static(__dirname+'/public'))
 
-/*app.get('*', (req, res)=>{
-  console.log('http request')
-  res.send('success')
-})*/
+
 
 app.listen(httpPort, ()=>{
   console.log('HTTP Server started, listening on Port ' + (httpPort))
@@ -25,6 +22,12 @@ var server = tcp.createServer((socket)=>{
 
   process.stdin.on('data', (data)=>{
     socket.write(data)
+  })
+
+  app.get('*', (req, res)=>{
+    socket.write(req.url)
+    //console.log('http request')
+    //res.send('success')
   })
 
   socket.on('data', (buffer)=>{

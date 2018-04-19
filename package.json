@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Backend Server for CyberSecurity Demonstrators",
   "scripts": {
-    "start": "npm install && forever app.js"
+    "start": "forever app.js",
+    "install": "npm install && forever app.js"
+
   },
   "dependencies": {
     "express": "4.*",

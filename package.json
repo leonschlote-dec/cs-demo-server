@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "Backend Server for CyberSecurity Demonstrators",
   "scripts": {
-    "start": "forever app.js",
-    "install": "npm install && forever app.js"
-
+    "start": "forever app.js"
   },
   "dependencies": {
     "express": "4.*",
     "net": "*",
-    "forever": "*"
+    "forever": "*",
+    "socket.io": "2.*"
   }
 }

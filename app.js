@@ -55,6 +55,7 @@ var tcpServer = tcp.createServer((socket)=>{
   socket.on('data', (buffer)=>{
     response = buffer.toString()
     console.log(response)
+    io.emit('response', {'id': id, 'response': response})
   })
 
   /*client.on('data', (buffer)=>{
@@ -64,6 +65,11 @@ var tcpServer = tcp.createServer((socket)=>{
       socket.end()
     }
   })*/
+
+  socket.on('error', ()=>{
+console.log('disconnect or error')
+io.emit('close', id)
+})
 });
 
 

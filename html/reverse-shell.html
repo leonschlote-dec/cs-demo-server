@@ -147,6 +147,10 @@ $('.noshelloverlay').removeClass('hidden')
         $('.shell#'+data.id+' .responsecontainer').append('<p class="command">'+data.command+'</p>')
       })
 
+      socket.on('response', (data)=>{
+        $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
+      })
+
       socket.on('disconnect', ()=>{
         $('.tabbuttoncontainer').html('');
         $('.shellcontainer').html('');

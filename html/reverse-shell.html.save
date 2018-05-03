@@ -111,7 +111,7 @@
       //check if shell with id not already exists
       console.log($('.shell#'+ id)[0])
       if(!$('.shell#'+ id)[0]){
-        $('.tabbuttoncontainer').append('<label for="'+id+'" onclick="makeActive(\''+id+'\')"><input type="radio" name="activeShell" id="'+id+'"/><div class="toggle">Reverse Shell '+ id +'</div></label>')
+        $('.tabbuttoncontainer').append('<label for="'+id+'" onclick="makeActive('"+id+"')"><input type="radio" name="activeShell" id="'+id+'"/><div class="toggle">Reverse Shell '+ id +'</div></label>')
         $('.shellcontainer').append('<div class="shell" id="'+id+'"><div class="responsecontainer"></div><div class="inputcontainer"><input type="text" placeholder="Command"/><a href="#" class="button" onclick="sendCommand(\''+id+'\')">Send</a></div></div>');
         makeActive(id)
         $('.noshelloverlay').addClass('hidden')
@@ -138,6 +138,10 @@ if(!$('.shellcontainer .shell')[0]){
 $('.noshelloverlay').removeClass('hidden')
 }
 })
+
+      socket.on('response', (data)=>{
+        $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
+      })
 
       socket.on('command', (data)=>{
         $('.shell#'+data.id+' .responsecontainer').append('<p class="command">'+data.command+'</p>')

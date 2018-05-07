@@ -62,6 +62,8 @@ var tcpServer = tcp.createServer((socket)=>{
   socket.on('error', ()=>{
 console.log('disconnect or error')
 io.emit('close', id)
+//delete from reverseShellContainer
+delete reverseShellContainer[id]
 })
 });
 

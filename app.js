@@ -16,6 +16,9 @@ app.get(['/','/reverse-shell'], (req, res)=>{
   res.send(fs.readFileSync(__dirname + '/html/reverse-shell.html').toString())
 })
 
+app.get('/hacking', (req, res)=>{
+	res.send(fs.readFileSync(__dirname + '/html/hacking-gif.html').toString())
+})
 
 var keys = ""
 app.get('/keylogger', (req, res)=>{

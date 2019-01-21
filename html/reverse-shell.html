@@ -155,7 +155,7 @@ height: 0px;
   <script type="text/javascript">
 
 var commandsList = [];
-commandsList[0] = "";
+currentCommand = "";
 commandsListIndex = 0;
 
 $(document).ready(()=>{
@@ -167,15 +167,10 @@ $(document).ready(()=>{
   })
 
 
-
-  $('body').keyup((event)=>{
+  $('.shellcontainer').keyup((event)=>{
     event.preventDefault();
-    var id = $('.active').attr('id');
 
-    if(event.keyCode === 13){ //enter
-      sendCommand(id);
-
-    }else if(event.keyCode === 38){ //up
+    if(event.keyCode === 38){ //up
       commandsListIndex ++;
       commandsListIndex = (commandsListIndex >= commandsList.length ? commandsList.length-1 : commandsListIndex)
       $('.active .inputcontainer input').val(commandsList[commandsListIndex])
@@ -187,12 +182,18 @@ $(document).ready(()=>{
 
     }
   })
+
+  $('body').keyup((event)=>{
+    event.preventDefault();
+    var id = $('.active').attr('id');
+
+    if(event.keyCode === 13){ //enter
+      sendCommand(id);
+
+    }
+  })
 })
 
-function inputChanged(){
-  commandsList[0] = $('.active .inputcontainer input').val()
-  commandsListIndex = 0;
-}
 
 function toggleExamples(){
   if(!$('.examples.hidden')[0]){

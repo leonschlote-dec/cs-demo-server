@@ -176,7 +176,7 @@ $(document).ready(()=>{
 
     if(event.keyCode === 13){ //enter
       sendCommand(id);
-      
+
     }else if(event.keycode === 38){ //up
       commandsListIndex ++;
       commandsListIndex = (commandsListIndex >= commandsList.length ? commandsList.length-1 : commandsListIndex)
@@ -186,7 +186,7 @@ $(document).ready(()=>{
       commandsListIndex--;
       commandsListIndex = (commandsListIndex < 0 ? 0 : commandsListIndex)
       $('input').val(commandsList[commandsListIndex])
-    })
+    }
   })
 })
 

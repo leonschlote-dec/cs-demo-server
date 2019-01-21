@@ -103,15 +103,14 @@ background: #ddd;
 .examples{
 background: #333;
 color: #eee;
-overflow:hidden;
+overflow: hidden;
+overflow-y: scroll;
 height: 230px;
 transition: height 0.2s;
 }
 
 .examples ul{
 padding-left: 15px;
-	overflow: auto;
-	height: 230px;
 display: block;
 }
 
@@ -155,6 +154,9 @@ height: 0px;
 
   <script type="text/javascript">
 
+var commandsList = [];
+commandsList[0] = "";
+commandsListIndex = 0;
 
 $(document).ready(()=>{
 	$('.examples li').click((a)=>{
@@ -162,13 +164,29 @@ $(document).ready(()=>{
     $('.shell.active input')[0].value = command
   })
 
+  $('input').bind('input', ()=>{
+
+    commandsList[0] = $('input').val()
+    commandsListIndex = 0;
+  })
+
   $('body').keyup((event)=>{
     event.preventDefault();
     var id = $('.active').attr('id');
 
-    if(event.keyCode === 13){
+    if(event.keyCode === 13){ //enter
       sendCommand(id);
-    }
+      
+    }else if(event.keycode === 38){ //up
+      commandsListIndex ++;
+      commandsListIndex = (commandsListIndex >= commandsList.length ? commandsList.length-1 : commandsListIndex)
+      $('input').val(commandsList[commandsListIndex])
+
+    }else if(event.keycode === 40){ //down
+      commandsListIndex--;
+      commandsListIndex = (commandsListIndex < 0 ? 0 : commandsListIndex)
+      $('input').val(commandsList[commandsListIndex])
+    })
   })
 })
 
@@ -205,6 +223,8 @@ function toggleExamples(){
   	    if(command == '') return;
         $('.shell#'+id+' .inputcontainer input')[0].value = ""
         socket.emit('command', {'command': command, 'id': id})
+        commandsList[commandsList.length] = command;
+        console.log(commandsList);
       }
 
       var host = window.location.hostname

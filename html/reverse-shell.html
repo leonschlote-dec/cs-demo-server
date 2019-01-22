@@ -234,9 +234,11 @@ function toggleExamples(){
   	    if(command == '') return;
         $('.shell#'+id+' .inputcontainer input')[0].value = ""
         socket.emit('command', {'command': command, 'id': id})
-        //commandsList[commandsList.length-1] = command;
-        commandsList[commandsList.length] = "";
-        commandsListIndex = commandsList.length-1
+
+        commandsList.pop()
+        commandsList.push(command);
+        commandsListIndex = commandsList.length
+        commandsList.push("")
         console.log(commandsList);
       }
 

@@ -155,27 +155,27 @@ height: 0px;
   <script type="text/javascript">
 
 var commandsList = [];
-currentCommand = "";
+commandsList[0] = "";
 commandsListIndex = 0;
 
 $(document).ready(()=>{
 	$('.examples li').click((a)=>{
     var command = a.target.innerText
     $('.shell.active input')[0].value = command;
-    commandsListIndex = 0;
-    commandsList[0] = command;
+  //  commandsListIndex = commandsList.length-1;
+  //  commandsList[commandsList.length-1] = command;
   })
 
 
   $('.shellcontainer').keyup((event)=>{
     event.preventDefault();
 
-    if(event.keyCode === 38){ //up
+    if(event.keyCode === 40){ //down
       commandsListIndex ++;
       commandsListIndex = (commandsListIndex >= commandsList.length ? commandsList.length-1 : commandsListIndex)
       $('.active .inputcontainer input').val(commandsList[commandsListIndex])
 
-    }else if(event.keyCode === 40){ //down
+    }else if(event.keyCode === 38){ //up
       commandsListIndex--;
       commandsListIndex = (commandsListIndex < 0 ? 0 : commandsListIndex)
       $('.active .inputcontainer input').val(commandsList[commandsListIndex])
@@ -192,6 +192,12 @@ $(document).ready(()=>{
 
     }
   })
+
+
+
+addShell('test')
+
+
 })
 
 
@@ -228,7 +234,9 @@ function toggleExamples(){
   	    if(command == '') return;
         $('.shell#'+id+' .inputcontainer input')[0].value = ""
         socket.emit('command', {'command': command, 'id': id})
-        commandsList[commandsList.length] = command;
+        //commandsList[commandsList.length-1] = command;
+        commandsList[commandsList.length] = "";
+        commandsListIndex = commandsList.length-1
         console.log(commandsList);
       }
 
@@ -274,6 +282,7 @@ function toggleExamples(){
         $('.noshelloverlay').removeClass('hidden')
         console.log('Verbindung unterbrochen')
       })
+
   </script>
 </head>
 <body>

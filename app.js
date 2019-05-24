@@ -149,6 +149,10 @@ function generateID(){
 }
 
 
+
+//Note irgendwo ist ein / zu viel:
+// EXAMPLE-FILES//company-secrets-txt
+
 function getDirectoryContents(base, path){
   let resultArray = []
   console.log(path)

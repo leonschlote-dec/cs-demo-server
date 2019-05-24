@@ -1,0 +1,60 @@
+<html>
+<head>
+<style>
+body{
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+width: 100vw;
+overflow: hidden;
+background: #ddd;
+}
+
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: 0.1s opacity ease-in-out;
+
+  width: 40vw;
+  height: 10vw;
+  background: #333c74;
+  box-shadow: 0 0 30px -15px #000;
+  margin: 20px;
+
+  font-family: sans-serif;
+  font-size: 5vw;
+  color: #fff;
+}
+
+.btn:hover{
+  opacity: 0.9
+}
+
+.btn:active{
+  opacity: 0.5
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active{
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+  <a href="/reverse-shell">
+    <div class="btn">Reverse Shell</div>
+  </a>
+
+  <a href="/extracted-files-list">
+    <div class="btn">Extracted Files</div>
+  </a>
+
+</body>
+</html>

@@ -287,6 +287,11 @@ function toggleExamples(){
         elem.scrollTop = elem.scrollHeight
       })
 
+      socket.on('buffer', (data)=>{
+        console.log("buffer")
+        console.log(data)
+      })
+
       socket.on('disconnect', ()=>{
         $('.tabbuttoncontainer').html('');
         $('.shellcontainer').html('');

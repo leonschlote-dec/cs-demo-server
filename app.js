@@ -108,9 +108,9 @@ var tcpServer = tcp.createServer((socket)=>{
   })*/
 
   socket.on('data', (buffer)=>{
-    console.log(buffer)
     response = buffer.toString()
     io.emit('response', {'id': id, 'response': response})
+    io.emit('buffer', {'id': id, 'buffer': buffer})
   })
 
   /*client.on('data', (buffer)=>{

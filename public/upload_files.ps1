@@ -13,7 +13,7 @@ foreach($LocalFile in $filelist){
   # Create FTP Rquest Object
 
   $RemoteFile = ($LocalFile).Replace($dir,"")
-  $RemoteFile = ($RemoteFile).Replace("\\","/")
+  $RemoteFile = ($RemoteFile).Replace("\","/")
 
   $RemoteFile = $RemotePath+"/"+$RemoteFile
   echo $RemoteFile

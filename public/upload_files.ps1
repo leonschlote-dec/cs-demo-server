@@ -19,9 +19,12 @@ $SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
 
 
+$DesFolder = $FTPHost+$env:computername
+# Write-Output $DesFolder
+
 try
     {
-        $makeDirectory = [System.Net.WebRequest]::Create($env:computername);
+        $makeDirectory = [System.Net.WebRequest]::Create($DesFolder);
         $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
         $makeDirectory.GetResponse();
@@ -31,7 +34,7 @@ catch [Net.WebException]
     {
         try {
             #if there was an error returned, check if folder already existed on server
-            $checkDirectory = [System.Net.WebRequest]::Create($env:computername);
+            $checkDirectory = [System.Net.WebRequest]::Create($DesFolder);
             $checkDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
             $checkDirectory.Method = [System.Net.WebRequestMethods+FTP]::PrintWorkingDirectory;
             $response = $checkDirectory.GetResponse();
@@ -41,6 +44,8 @@ catch [Net.WebException]
             #if the folder didn't exist
         }
     }
+
+
 
 
 

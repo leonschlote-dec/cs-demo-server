@@ -14,7 +14,6 @@ echo $filelist
 "open $server
 user $user $password
 binary
-cd $dir
 
 " +
 ($filelist | %{ "put ""$_""`n" }) | ftp -i -in

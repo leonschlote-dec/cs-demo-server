@@ -167,11 +167,10 @@ commandsListIndex = 0;
 
 $(document).ready(()=>{
 	$('.examples li').click((event)=>{
-console.log(event)
     var command = event.target.children[1].innerText
     $('.shell.active input')[0].value = command;
-  //  commandsListIndex = commandsList.length-1;
-  //  commandsList[commandsList.length-1] = command;
+    var id = $('.active').attr('id')
+    sendCommand(id);
   })
 
 

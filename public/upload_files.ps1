@@ -1,7 +1,7 @@
 # Config
 $Username = "ftpuser"
 $Password = "ftppass"
-$LocalFile = "C:\Users\testo\geheim.txt"
+$LocalFile = "C:\Users\testo\Desktop\geheim.txt"
 $RemoteFile = "ftp://raspberrypi.local/TEST/files/geheim.txt"
 
 # Create FTP Rquest Object

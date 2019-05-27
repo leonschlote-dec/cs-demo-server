@@ -1,10 +1,12 @@
 $server = "raspberrypi.local"
-$dir = "C:\Users\testo\Desktop\"
+$dir = "C:\Users\testo\Desktop\*.*"
 $user = "ftpuser"
 $password = "ftppass"
 
 
-$filelist = Get-ChildItem -Path $dir
+gci $path | select -expand FullName
+
+$filelist = [string[]] (Get-ChildItem -Path $dir -Recurse)
 
 echo $filelist
 

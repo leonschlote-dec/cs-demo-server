@@ -6,6 +6,7 @@ $password = "ftppass"
 
 gci $path | select -expand FullName
 
+cd $dir
 $filelist = [string[]] (Get-ChildItem -Path $dir -Recurse)
 
 echo $filelist

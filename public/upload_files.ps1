@@ -11,7 +11,10 @@ echo $filelist
 
 foreach($LocalFile in $filelist){
   # Create FTP Rquest Object
-  $RemoteFile = $RemotePath+$LocalFile
+
+  $RemoteFile = ($LocalFile).Replace($dir,"")
+
+  $RemoteFile = $RemotePath+"/"+$RemoteFile
   echo $RemoteFile
 
   $FTPRequest = [System.Net.FtpWebRequest]::Create("$RemoteFile")

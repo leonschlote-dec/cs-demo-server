@@ -4,9 +4,8 @@ $user = "ftpuser"
 $password = "ftppass"
 
 
-gci $path | select -expand FullName
+#gci $path | select -expand FullName
 
-cd $dir
 $filelist = [string[]] (Get-ChildItem -Path $dir -File -Recurse)
 
 echo $filelist

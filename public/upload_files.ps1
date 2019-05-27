@@ -1,13 +1,10 @@
 $server = "raspberrypi.local"
 $dir = "C:\Users\testo\Desktop\"
-$user = ftpuser
-$password = ftppass
+$user = "ftpuser"
+$password = "ftppass"
 
 
-$objFolder = CreateObject("Scripting.FileSystemObject")
-$objFolder = objFSO.GetFolder($dir)
-
-$filelist = objFolder.Files
+$filelist = Get-ChildItem -Path $dir
 
 echo $filelist
 

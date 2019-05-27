@@ -101,10 +101,10 @@ io.on('connection', (socket)=>{
 
 var reverseShellContainer = {}
 
-var tcpServer = tcp.createServer((socket)=>{
+var tcpServer = tcp.createServer((tcpsocket)=>{
 //console.log(socket);
   var id = generateID()
-  reverseShellContainer[id] = socket
+  reverseShellContainer[id] = tcpsocket
   io.emit('new shell', id)
 
   console.log(reverseShellContainer);
@@ -113,7 +113,7 @@ var tcpServer = tcp.createServer((socket)=>{
     socket.write(data)
   })*/
 
-  socket.on('data', (buffer)=>{
+  tcpsocket.on('data', (buffer)=>{
     io.emit('response', {'id': id, 'response': "test-response", 'buffer': buffer})
     //hierunter wieder einkommentieren, nur test
     //response = buffer.toString()
@@ -121,7 +121,7 @@ var tcpServer = tcp.createServer((socket)=>{
   })
 
 
-  socket.on('error', ()=>{
+  tcpsocket.on('error', ()=>{
     console.log('disconnect or error')
     io.emit('close', id)
     //delete from reverseShellContainer

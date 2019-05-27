@@ -1,6 +1,6 @@
 $server = "raspberrypi.local"
 #$dir = "C:\Users\testo\Desktop\*.*"
-$dir = "C:\Users\testo\Desktop\"
+$dir = "C:\Users\testo\Desktop"
 $user = "ftpuser"
 $password = "ftppass"
 

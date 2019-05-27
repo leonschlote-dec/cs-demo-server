@@ -15,26 +15,27 @@ $SrcEntries = Get-ChildItem $UploadFolder -Recurse
 $Srcfolders = $SrcEntries | Where-Object{$_.PSIsContainer}
 $SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
+echo "Folder for Data Extraction: "+$UploadFolder
 
 
-
-
-$DesFolder = $FTPHost+$env:computername
 # Write-Output $DesFolder
 
 try
     {
-        $makeDirectory = [System.Net.WebRequest]::Create($DesFolder);
+        $makeDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername);
         $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
         $makeDirectory.GetResponse();
+
+        echo "Added new Computer with name: "+$env:computername
+
         #folder created successfully
     }
 catch [Net.WebException]
     {
         try {
             #if there was an error returned, check if folder already existed on server
-            $checkDirectory = [System.Net.WebRequest]::Create($DesFolder);
+            $checkDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername);
             $checkDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
             $checkDirectory.Method = [System.Net.WebRequestMethods+FTP]::PrintWorkingDirectory;
             $response = $checkDirectory.GetResponse();
@@ -44,7 +45,6 @@ catch [Net.WebException]
             #if the folder didn't exist
         }
     }
-
 
 
 
@@ -96,3 +96,6 @@ foreach($entry in $SrcFiles)
     $uri = New-Object System.Uri($DesFile)
     $webclient.UploadFile($uri, $SrcFullname)
 }
+
+
+echo "Successfull Data Extraction Completed"

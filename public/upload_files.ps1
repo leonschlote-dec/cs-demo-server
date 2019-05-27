@@ -1,36 +1,63 @@
-# Config
-$Username = "ftpuser"
-$Password = "ftppass"
-$dir = "C:\Users\testo\Desktop\"
-$dir2 = "C:\Users\testo\Desktop\*.*"
-$RemotePath = "ftp://raspberrypi.local/$env:computername"
 
-$filelist = [string[]] (Get-ChildItem -Path $dir2 -Recurse)
 
-echo $filelist
+# FTP Server Variables
+$FTPHost = 'ftp://raspberrypi.local/'
+$FTPUser = 'ftpuser'
+$FTPPass = 'ftppass'
 
-foreach($LocalFile in $filelist){
-  # Create FTP Rquest Object
+#Directory where to find pictures to upload
+$UploadFolder = "C:\Users\testo\Desktop"
 
-  $RemoteFile = ($LocalFile).Replace($dir,"")
-  $RemoteFile = ($RemoteFile).Replace("\","/")
+$webclient = New-Object System.Net.WebClient
+$webclient.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass)
 
-  $RemoteFile = $RemotePath+"/"+$RemoteFile
-  echo $RemoteFile
+$SrcEntries = Get-ChildItem $UploadFolder -Recurse
+$Srcfolders = $SrcEntries | Where-Object{$_.PSIsContainer}
+$SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
-  $FTPRequest = [System.Net.FtpWebRequest]::Create("$RemoteFile")
-  $FTPRequest = [System.Net.FtpWebRequest]$FTPRequest
-  $FTPRequest.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
-  $FTPRequest.Credentials = new-object System.Net.NetworkCredential($Username, $Password)
-  $FTPRequest.UseBinary = $true
-  $FTPRequest.UsePassive = $true
-  # Read the File for Upload
-  $FileContent = gc -en byte $LocalFile
-  $FTPRequest.ContentLength = $FileContent.Length
-  # Get Stream Request by bytes
-  $Run = $FTPRequest.GetRequestStream()
-  $Run.Write($FileContent, 0, $FileContent.Length)
-  # Cleanup
-  $Run.Close()
-  $Run.Dispose()
+# Create FTP Directory/SubDirectory If Needed - Start
+foreach($folder in $Srcfolders)
+{
+    $SrcFolderPath = $UploadFolder  -replace "\\","\\" -replace "\:","\:"
+    $DesFolder = $folder.Fullname -replace $SrcFolderPath,$FTPHost
+    $DesFolder = $DesFolder -replace "\\", "/"
+    # Write-Output $DesFolder
+
+    try
+        {
+            $makeDirectory = [System.Net.WebRequest]::Create($DesFolder);
+            $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
+            $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
+            $makeDirectory.GetResponse();
+            #folder created successfully
+        }
+    catch [Net.WebException]
+        {
+            try {
+                #if there was an error returned, check if folder already existed on server
+                $checkDirectory = [System.Net.WebRequest]::Create($DesFolder);
+                $checkDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
+                $checkDirectory.Method = [System.Net.WebRequestMethods+FTP]::PrintWorkingDirectory;
+                $response = $checkDirectory.GetResponse();
+                #folder already exists!
+            }
+            catch [Net.WebException] {
+                #if the folder didn't exist
+            }
+        }
+}
+# Create FTP Directory/SubDirectory If Needed - Stop
+
+# Upload Files - Start
+foreach($entry in $SrcFiles)
+{
+    $SrcFullname = $entry.fullname
+    $SrcName = $entry.Name
+    $SrcFilePath = $UploadFolder -replace "\\","\\" -replace "\:","\:"
+    $DesFile = $SrcFullname -replace $SrcFilePath,$FTPHost
+    $DesFile = $DesFile -replace "\\", "/"
+    # Write-Output $DesFile
+
+    $uri = New-Object System.Uri($DesFile)
+    $webclient.UploadFile($uri, $SrcFullname)
 }

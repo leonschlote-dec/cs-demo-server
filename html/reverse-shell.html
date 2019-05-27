@@ -284,7 +284,7 @@ function toggleExamples(){
       socket.on('response', (data)=>{
         $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
         var elem = $('.shell#'+data.id+' .responsecontainer')[0]
-        console.log(data.buffer)
+        console.log(data)
         elem.scrollTop = elem.scrollHeight
       })
 

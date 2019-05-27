@@ -109,8 +109,7 @@ var tcpServer = tcp.createServer((socket)=>{
 
   socket.on('data', (buffer)=>{
     response = buffer.toString()
-    io.emit('response', {'id': id, 'response': response})
-    io.emit('buffer', {'id': id, 'buffer': buffer})
+    io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
   })
 
   /*client.on('data', (buffer)=>{
@@ -122,12 +121,12 @@ var tcpServer = tcp.createServer((socket)=>{
   })*/
 
   socket.on('error', ()=>{
-console.log('disconnect or error')
-io.emit('close', id)
-//delete from reverseShellContainer
-delete reverseShellContainer[id]
-})
-});
+    console.log('disconnect or error')
+    io.emit('close', id)
+    //delete from reverseShellContainer
+    delete reverseShellContainer[id]
+  })
+  });
 
 
 

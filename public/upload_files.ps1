@@ -11,7 +11,7 @@ echo $filelist
 
 foreach($LocalFile in $filelist){
   # Create FTP Rquest Object
-  $FTPRequest = [System.Net.FtpWebRequest]::Create("$RemoteFile")
+  $FTPRequest = [System.Net.FtpWebRequest]::Create("$RemoteFile$LocalFile")
   $FTPRequest = [System.Net.FtpWebRequest]$FTPRequest
   $FTPRequest.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
   $FTPRequest.Credentials = new-object System.Net.NetworkCredential($Username, $Password)

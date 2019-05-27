@@ -2,7 +2,7 @@
 $Username = "ftpuser"
 $Password = "ftppass"
 $LocalFile = "C:\Users\testo\Desktop\geheim.txt"
-$RemoteFile = "ftp://raspberrypi.local/TEST/files/geheim.txt"
+$RemoteFile = "ftp://raspberrypi.local/geheim.txt"
 
 # Create FTP Rquest Object
 $FTPRequest = [System.Net.FtpWebRequest]::Create("$RemoteFile")

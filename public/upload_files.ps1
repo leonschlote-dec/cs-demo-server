@@ -17,4 +17,4 @@ user $user $password
 binary
 cd $dir
 " +
-($filelist.split(" ") | %{ "put ""$_""`n" }) | ftp -i -in
+($filelist.split(' ') | %{ "put ""$_""`n" }) | ftp -i -in

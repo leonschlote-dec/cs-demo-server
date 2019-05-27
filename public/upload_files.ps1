@@ -17,7 +17,7 @@ $SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
 $timestamp = Get-Date -UFormat " %Y-%m-%d %H:%M:%S"
 
-echo "Folder for Data Extraction: "+$UploadFolder
+echo "Folder for Data Extraction: "$UploadFolder
 
 
 
@@ -31,7 +31,7 @@ try
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
         $makeDirectory.GetResponse();
 
-        echo "Added new Computer with name: "+$env:computername
+        echo "Added new Computer with name: "$env:computername
 
         #folder created successfully
     }

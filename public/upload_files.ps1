@@ -2,7 +2,7 @@
 $Username = "ftpuser"
 $Password = "ftppass"
 $dir = "C:\Users\testo\Desktop\"
-$RemoteFile = "ftp://raspberrypi.local/$env:computername/geheim.txt"
+$RemoteFile = "ftp://raspberrypi.local/TEST/geheim2.txt"
 
 $filelist = [string[]] (Get-ChildItem -Path $dir+"*.*" -Recurse)
 

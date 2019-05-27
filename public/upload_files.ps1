@@ -15,7 +15,7 @@ $SrcEntries = Get-ChildItem $UploadFolder -Recurse
 $Srcfolders = $SrcEntries | Where-Object{$_.PSIsContainer}
 $SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
-echo "Folder for Data Extraction: "+$UploadFolder
+echo "Folder for Data Extraction: "+$UploadFolder+"\n"
 
 
 # Write-Output $DesFolder
@@ -27,7 +27,7 @@ try
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
         $makeDirectory.GetResponse();
 
-        echo "Added new Computer with name: "+$env:computername
+        echo "Added new Computer with name: "+$env:computername+"\n"
 
         #folder created successfully
     }
@@ -98,4 +98,4 @@ foreach($entry in $SrcFiles)
 }
 
 
-echo "Successfull Data Extraction Completed"
+echo "Successfull Data Extraction Completed"+"\n"

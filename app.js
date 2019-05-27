@@ -79,13 +79,19 @@ server.listen(httpPort, ()=>{
 })
 
 
+
+
+
+
+
+
 io.on('connection', (socket)=>{
   //socket.emit('new shell', 'generateID')
-for(key in reverseShellContainer){
-  if(reverseShellContainer.hasOwnProperty(key)){
-    socket.emit('new shell', key)
+  for(key in reverseShellContainer){
+    if(reverseShellContainer.hasOwnProperty(key)){
+      socket.emit('new shell', key)
+    }
   }
-}
 
   socket.on('command', (data)=>{
     io.emit('command', data)
@@ -108,17 +114,12 @@ var tcpServer = tcp.createServer((socket)=>{
   })*/
 
   socket.on('data', (buffer)=>{
-    response = buffer.toString()
-    io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
+    io.emit('response', {'id': id, 'response': "test-response", 'buffer': buffer})
+    //hierunter wieder einkommentieren, nur test
+    //response = buffer.toString()
+    //io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
   })
 
-  /*client.on('data', (buffer)=>{
-    var response = buffer.toString('utf8')
-    if(!response.match(/HTTP\/1\.1 400 Bad Request/)){
-      socket.write(response);
-      socket.end()
-    }
-  })*/
 
   socket.on('error', ()=>{
     console.log('disconnect or error')
@@ -126,7 +127,7 @@ var tcpServer = tcp.createServer((socket)=>{
     //delete from reverseShellContainer
     delete reverseShellContainer[id]
   })
-  });
+});
 
 
 

@@ -15,14 +15,18 @@ $SrcEntries = Get-ChildItem $UploadFolder -Recurse
 $Srcfolders = $SrcEntries | Where-Object{$_.PSIsContainer}
 $SrcFiles = $SrcEntries | Where-Object{!$_.PSIsContainer}
 
+$timestamp = Get-Date -UFormat " %Y-%m-%d %H:%M:%S"
+
 echo "Folder for Data Extraction: "+$UploadFolder+"\n"
+
+
 
 
 # Write-Output $DesFolder
 
 try
     {
-        $makeDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername);
+        $makeDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername+$timestamp);
         $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
         $makeDirectory.GetResponse();
@@ -35,7 +39,7 @@ catch [Net.WebException]
     {
         try {
             #if there was an error returned, check if folder already existed on server
-            $checkDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername);
+            $checkDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername+$timestamp);
             $checkDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
             $checkDirectory.Method = [System.Net.WebRequestMethods+FTP]::PrintWorkingDirectory;
             $response = $checkDirectory.GetResponse();
@@ -54,7 +58,7 @@ catch [Net.WebException]
 foreach($folder in $Srcfolders)
 {
     $SrcFolderPath = $UploadFolder  -replace "\\","\\" -replace "\:","\:"
-    $DesFolder = $folder.Fullname -replace $SrcFolderPath,($FTPHost+$env:computername)
+    $DesFolder = $folder.Fullname -replace $SrcFolderPath,($FTPHost+$env:computername+$timestamp)
     $DesFolder = $DesFolder -replace "\\", "/"
     # Write-Output $DesFolder
 
@@ -89,7 +93,7 @@ foreach($entry in $SrcFiles)
     $SrcFullname = $entry.fullname
     $SrcName = $entry.Name
     $SrcFilePath = $UploadFolder -replace "\\","\\" -replace "\:","\:"
-    $DesFile = $SrcFullname -replace $SrcFilePath,($FTPHost+$env:computername)
+    $DesFile = $SrcFullname -replace $SrcFilePath,($FTPHost+$env:computername+$timestamp)
     $DesFile = $DesFile -replace "\\", "/"
     # Write-Output $DesFile
 

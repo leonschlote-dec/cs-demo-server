@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend Server for CyberSecurity Demonstrators",
   "scripts": {
-    "start": "forever app.js -w"
+    "start": "forever start -o logs/console_out.log -e logs/console_err.log -w app.js"
   },
   "dependencies": {
     "express": "4.*",

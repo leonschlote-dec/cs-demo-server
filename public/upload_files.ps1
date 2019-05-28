@@ -29,7 +29,7 @@ try
         $makeDirectory = [System.Net.WebRequest]::Create($FTPHost+$env:computername+" - "+$timestamp);
         $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
         $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
-        $makeDirectory.GetResponse();
+        $response = $makeDirectory.GetResponse();
 
         echo "Added new Computer with name: $env:computername"
 
@@ -67,7 +67,7 @@ foreach($folder in $Srcfolders)
             $makeDirectory = [System.Net.WebRequest]::Create($DesFolder);
             $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($FTPUser,$FTPPass);
             $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
-            $makeDirectory.GetResponse();
+            $response = $makeDirectory.GetResponse();
             #folder created successfully
         }
     catch [Net.WebException]

@@ -116,7 +116,9 @@ var tcpServer = tcp.createServer((tcpsocket)=>{
   tcpsocket.on('data', (buffer)=>{
     //io.emit('response', {'id': id, 'response': "test-response", 'buffer': buffer})
     //hierunter wieder einkommentieren, nur test
-    response = buffer.toString()
+    response = "<span>"+buffer.toString().replace("\\n", "</span><span>")+"</span>"
+
+
     io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
   })
 

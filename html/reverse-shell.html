@@ -160,7 +160,7 @@
   </style>
 
   <script type="text/javascript">
-var buffer;
+//var buffer;
 
 var commandsList = [];
 commandsList[0] = "";
@@ -285,8 +285,8 @@ function toggleExamples(){
       socket.on('response', (data)=>{
         $('.shell#'+data.id+' .responsecontainer').append('<p class="response">'+data.response+'</p>')
         var elem = $('.shell#'+data.id+' .responsecontainer')[0]
-        buffer = data.buffer
-        console.log(buffer)
+        //buffer = data.buffer
+        //console.log(buffer)
         elem.scrollTop = elem.scrollHeight
       })
 

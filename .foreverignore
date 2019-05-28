@@ -1,4 +1,6 @@
 node_modules/*
-public/extracted_files/*
+public/*
 logs/*
 html/*
+.gitignore
+package-lock.json

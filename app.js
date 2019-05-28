@@ -114,10 +114,10 @@ var tcpServer = tcp.createServer((tcpsocket)=>{
   })*/
 
   tcpsocket.on('data', (buffer)=>{
-    io.emit('response', {'id': id, 'response': "test-response", 'buffer': buffer})
+    //io.emit('response', {'id': id, 'response': "test-response", 'buffer': buffer})
     //hierunter wieder einkommentieren, nur test
-    //response = buffer.toString()
-    //io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
+    response = buffer.toString()
+    io.emit('response', {'id': id, 'response': response, 'buffer': buffer})
   })
 
 

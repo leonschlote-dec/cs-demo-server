@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend Server for CyberSecurity Demonstrators",
   "scripts": {
-    "start": "forever app.js"
+    "start": "forever app.js -w"
   },
   "dependencies": {
     "express": "4.*",

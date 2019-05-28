@@ -1,4 +1,4 @@
 /node_modules
 /public/extracted_files/*
 !/public/extracted_files/EXAMPLE-FILES
-/logs
+/logs/*
